@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import dj_database_url
 from decouple import config
+from datetime import timedelta
 
 
 # =========================
@@ -27,6 +28,7 @@ ALLOWED_HOSTS = ['*']   # later add domain
 # =========================
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,9 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'api',
 ]
 
+
+AUTH_USER_MODEL = 'users.User'
 
 # =========================
 # MIDDLEWARE
@@ -147,3 +150,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # =========================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+}
+
